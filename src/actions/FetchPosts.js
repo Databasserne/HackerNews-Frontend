@@ -8,13 +8,6 @@ import {
 } from '../utils/ActionTypes';
 
 export default function fetchPosts() {
-    const url = getPostsUrl();
-
-    return {
-        type: FETCHING_POST_DATA,
-        payload: axios.get(url)
-    };
-
     return dispatch => {
         dispatch({ type: FETCHING_POST_DATA });
 
