@@ -13,11 +13,8 @@ const initialState = {
 
 
 export default (state = initialState, action) => {
-    console.log("prev State", state);
-    var newState;
     switch(action.type){
         case FETCHING_POST_DATA:
-        console.log(action);
             return {
                 ...state,
                 isFetching: true,

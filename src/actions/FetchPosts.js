@@ -15,11 +15,9 @@ export default function fetchPosts() {
 
         axios.get(url)
             .then(res => {
-                console.log("Got stuff");
                 dispatch({ type: FETCHING_POST_DATA_SUCCESS, payload: res.data });
             })
             .catch(err => {
-                console.log("Got error");
                 dispatch({ type: FETCHING_POST_DATA_FAIL, payload: err.data });
             });
     }
