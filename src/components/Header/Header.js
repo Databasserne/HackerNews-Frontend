@@ -1,6 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 
 import './style.css';
+
+const loginButton = () => {
+    return (
+        <Link to="/login">Login</Link>
+    );
+}
 
 const Header = () => {
     return (
@@ -13,10 +20,10 @@ const Header = () => {
                         <span className="icon-bar"></span>
                         <span className="icon-bar"></span>
                     </button>
-                    <a className="navbar-brand" href="">HackerNews</a>
+                    <Link className="navbar-brand" to="/">HackerNews</Link>
                 </div>
                 <ul className="nav navbar-nav navbar-right">
-                    <li><a href="#">Login</a></li>
+                    <li>{loginButton()}</li>
                 </ul>
             </div>
         </nav>
