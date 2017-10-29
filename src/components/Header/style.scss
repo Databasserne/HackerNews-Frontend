@@ -1,0 +1,23 @@
+.navbar-hackernews {
+    background-color: rgb(238, 110, 46);
+
+    .navbar-brand {
+        color: #000000;
+
+        &:hover {
+            color: #000000;
+        }
+    }
+    
+    .navbar-nav {
+        li {
+            a {
+                color: #000000;
+
+                &:hover {
+                    color: #000000;
+                }
+            }
+        }
+    }
+}

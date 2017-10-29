@@ -1,0 +1,10 @@
+.navbar-hackernews {
+  background-color: #ee6e2e; }
+  .navbar-hackernews .navbar-brand {
+    color: #000000; }
+    .navbar-hackernews .navbar-brand:hover {
+      color: #000000; }
+  .navbar-hackernews .navbar-nav li a {
+    color: #000000; }
+    .navbar-hackernews .navbar-nav li a:hover {
+      color: #000000; }

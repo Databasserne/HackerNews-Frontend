@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { FetchPosts } from '../actions';
+import { FetchPosts } from '../../actions';
+import Post from './Post';
 
 class Posts extends Component {
 
@@ -19,16 +20,14 @@ class Posts extends Component {
 
         const tBody = posts.data.map((post, index) => {
             return (
-                <tr key={index}>
-                    <td>{post.title}</td>
-                </tr>
+                <Post key={index} number={index + 1} title={post.title} author={post.author_name} points={201}/>
             );
         });
 
         return(
             <div>
                 <h1>Posts</h1>
-                <table>
+                <table className="table">
                     <thead>
                         <tr>
                             <th>Title</th>
