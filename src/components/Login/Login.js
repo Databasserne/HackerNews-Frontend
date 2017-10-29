@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { Login } from '../../actions';
+
 import './style.css';
 
-class Login extends Component {
+class LoginComp extends Component {
 
     constructor(props) {
         super(props);
@@ -15,8 +17,8 @@ class Login extends Component {
         this.handleChangePassword = this.handleChangePassword.bind(this);
     }
 
-    componentDidMount() {
-        if(this.props.isLoggedIn){
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.isLoggedIn) {
             this.props.history.push("/");
         }
     }
@@ -30,8 +32,11 @@ class Login extends Component {
     }
 
     handleSubmit(event) {
-        console.log("Submit:", this.state.username, this.state.password);
-        this.props.history.push("/");
+        const { username, password } = this.state;
+        console.log("Submit:", username, password);
+
+        this.props.login(username, password);
+
         event.preventDefault();
     }
 
@@ -56,9 +61,9 @@ class Login extends Component {
 
 const mapStateToProps = (state) => {
     const { isLoggedIn } = state.user;
-    return { 
-        isLoggedIn 
+    return {
+        isLoggedIn
     };
 }
 
-export default connect(mapStateToProps)(Login);
+export default connect(mapStateToProps, { login: Login })(LoginComp);

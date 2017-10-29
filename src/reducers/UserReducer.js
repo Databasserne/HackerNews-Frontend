@@ -1,4 +1,6 @@
 import {
+    LOGIN_SUCCESS,
+    LOGOUT_SUCCESS
 } from '../utils/ActionTypes';
 
 const initialState = {
@@ -7,5 +9,12 @@ const initialState = {
 
 
 export default (state = initialState, action) => {
-    return state;
+    switch (action.type) {
+        case LOGIN_SUCCESS:
+            return { ...state, isLoggedIn: true };
+        case LOGOUT_SUCCESS:
+            return { ...state, isLoggedIn: false };
+        default:
+            return state;
+    }
 };

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 
+import { Logout } from '../../actions';
+
 import './style.css';
 
 
@@ -10,17 +12,28 @@ class Header extends Component {
     constructor(props) {
         super(props);
 
-        this.loginButton = this.loginButton.bind(this);
+        this.renderUserSection = this.renderUserSection.bind(this);
     }
 
-    loginButton = () => {
-        if(!this.props.isLoggedIn){
+    renderUserSection = () => {
+        if (!this.props.isLoggedIn) {
             return (
-                <Link to="/login">Login</Link>
+                <ul className="nav navbar-nav navbar-right">
+                    <li>
+                        <Link to="/register">Register</Link>
+                    </li>
+                    <li>
+                        <Link to="/login">Login</Link>
+                    </li>
+                </ul>
             );
         } else {
             return (
-                <Link to="/">Logout</Link>
+                <ul className="nav navbar-nav navbar-right">
+                    <li>
+                        <a onClick={this.props.logout}>Logout</a>
+                    </li>
+                </ul>
             );
         }
     }
@@ -38,9 +51,7 @@ class Header extends Component {
                         </button>
                         <Link className="navbar-brand" to="/">HackerNews</Link>
                     </div>
-                    <ul className="nav navbar-nav navbar-right">
-                        <li>{this.loginButton()}</li>
-                    </ul>
+                    {this.renderUserSection()}
                 </div>
             </nav>
         );
@@ -49,9 +60,9 @@ class Header extends Component {
 
 const mapStateToProps = (state) => {
     const { isLoggedIn } = state.user;
-    return { 
-        isLoggedIn 
+    return {
+        isLoggedIn
     };
 }
 
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps, { logout: Logout })(Header);

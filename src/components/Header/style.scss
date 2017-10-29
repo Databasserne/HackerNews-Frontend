@@ -8,7 +8,7 @@
             color: #000000;
         }
     }
-    
+
     .navbar-nav {
         li {
             a {
@@ -20,4 +20,8 @@
             }
         }
     }
+}
+
+a:hover {
+    cursor: pointer;
 }
