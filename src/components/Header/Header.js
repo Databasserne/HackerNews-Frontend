@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
-import { connect } from 'react-redux';
-
-import { Logout } from '../../actions';
 
 import './style.css';
-
-
 
 class Header extends Component {
     constructor(props) {
@@ -49,7 +44,7 @@ class Header extends Component {
                             <span className="icon-bar"></span>
                             <span className="icon-bar"></span>
                         </button>
-                        <Link className="navbar-brand" to="/">HackerNews</Link>
+                        <Link className="navbar-brand" to="/">HackerNews - {this.props.fullName}</Link>
                     </div>
                     {this.renderUserSection()}
                 </div>
@@ -58,11 +53,6 @@ class Header extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    const { isLoggedIn } = state.user;
-    return {
-        isLoggedIn
-    };
-}
 
-export default connect(mapStateToProps, { logout: Logout })(Header);
+
+export default Header;

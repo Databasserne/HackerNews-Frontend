@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 
-import { Login } from '../../actions';
 
 import './style.css';
 
-class LoginComp extends Component {
+class Login extends Component {
 
     constructor(props) {
         super(props);
@@ -59,11 +57,4 @@ class LoginComp extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    const { isLoggedIn } = state.user;
-    return {
-        isLoggedIn
-    };
-}
-
-export default connect(mapStateToProps, { login: Login })(LoginComp);
+export default Login;

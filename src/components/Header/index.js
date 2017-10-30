@@ -1,3 +1,15 @@
-import Header from './Header';
+import { connect } from 'react-redux';
 
-export default Header;
+import Header from './Header';
+import { logout } from '../../actions/Authentication';
+
+
+const mapStateToProps = (state) => {
+    const { isLoggedIn, fullName } = state.user;
+    return {
+        isLoggedIn,
+        fullName 
+    };
+}
+
+export default connect(mapStateToProps, { logout })(Header);

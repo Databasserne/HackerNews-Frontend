@@ -7,7 +7,7 @@ import {
     FETCHING_POST_DATA_FAIL
 } from '../utils/ActionTypes';
 
-export default function fetchPosts() {
+export function fetchPosts() {
     return dispatch => {
         dispatch({ type: FETCHING_POST_DATA });
 

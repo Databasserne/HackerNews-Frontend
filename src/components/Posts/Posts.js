@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 
-import { FetchPosts } from '../../actions';
 import Post from './Post';
 
 class Posts extends Component {
@@ -41,10 +39,4 @@ class Posts extends Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        posts: state.posts
-    };
-}
-
-export default connect(mapStateToProps, { fetchPosts: FetchPosts })(Posts);
+export default Posts;

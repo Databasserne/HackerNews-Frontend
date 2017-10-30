@@ -4,16 +4,28 @@ import {
 } from '../utils/ActionTypes';
 
 const initialState = {
-    isLoggedIn: false
+    isLoggedIn: false,
+    fullName: '',
+    token: null
 }
 
 
 export default (state = initialState, action) => {
     switch (action.type) {
         case LOGIN_SUCCESS:
-            return { ...state, isLoggedIn: true };
+            return { 
+                ...state, 
+                isLoggedIn: true, 
+                fullName: action.payload.fullname,
+                token: action.payload.token
+            };
         case LOGOUT_SUCCESS:
-            return { ...state, isLoggedIn: false };
+            return { 
+                ...state, 
+                isLoggedIn: false, 
+                fullName: '',
+                token: null
+            };
         default:
             return state;
     }
