@@ -5,6 +5,7 @@ import Posts from './Posts';
 import PostDetails from './PostDetails';
 import Register from './Register';
 import Login from './Login';
+import Profile from './Profile';
 
 export default () => {
     return (
@@ -13,6 +14,7 @@ export default () => {
             <Route path="/post/:number" component={PostDetails} />
             <Route path="/register" component={Register} />
             <Route path="/login" component={Login} />
+            <Route path="/user" component={Profile} />
         </main>
     );
 }

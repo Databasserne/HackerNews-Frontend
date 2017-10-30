@@ -4,7 +4,6 @@ import {
     FETCHING_POSTS_FAIL,
     FETCHING_POST,
     FETCHING_POST_SUCCESS,
-    FETCHING_POST_FAIL
 } from '../utils/ActionTypes';
 
 const initialState = {
@@ -13,8 +12,7 @@ const initialState = {
     hasError: false,
     errorMessage: null,
     post: {}
-}
-
+};
 
 export default (state = initialState, action) => {
     switch (action.type) {
