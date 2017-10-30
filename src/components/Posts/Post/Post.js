@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import './style.css';
 
@@ -15,7 +16,7 @@ class Post extends Component {
     }
 
     upvote() {
-        if(this.state.downvoted){
+        if (this.state.downvoted) {
             alert("Can't both up and downvote");
             return;
         }
@@ -24,7 +25,7 @@ class Post extends Component {
     }
 
     downvote() {
-        if(this.state.upvoted){
+        if (this.state.upvoted) {
             alert("Can't both up and downvote");
             return;
         }
@@ -33,7 +34,7 @@ class Post extends Component {
     }
 
     render() {
-        const { title, author, points, number } = this.props;
+        const { title, author, points, number, id } = this.props;
 
         var upvoteClass = "glyphicon glyphicon-arrow-up";
         upvoteClass += this.state.upvoted ? " upvoted" : "";
@@ -41,6 +42,8 @@ class Post extends Component {
         var downvoteClass = "glyphicon glyphicon-arrow-down";
         downvoteClass += this.state.downvoted ? " downvoted" : "";
 
+        const postDetailLink = `/post/${id}`;
+        
         return (
             <tr>
                 <td>
@@ -48,11 +51,11 @@ class Post extends Component {
                         <span>{number}. <i onClick={this.upvote} className={upvoteClass} /><i onClick={this.downvote} className={downvoteClass} /></span>
                     </div>
                     <div>
-                        {title} <span className="host-url">(medium.com)</span><br />
-                        <span className="by-line">{points} points by {author}</span>
+                        <Link className="title" to={postDetailLink}>{title}</Link> <span className="host-url">(medium.com)</span><br />
+                    <span className="by-line">{points} points by {author}</span>
                     </div>
                 </td>
-            </tr>
+            </tr >
         );
     }
 }

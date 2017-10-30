@@ -40,7 +40,6 @@ class Register extends Component {
 
     handleSubmit(event) {
         const { fullname, username, password, repeatPassword } = this.state;
-        console.log("Submit:", username, password);
 
         this.props.register(fullname, username, password, repeatPassword);
 

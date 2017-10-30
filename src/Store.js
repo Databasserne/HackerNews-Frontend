@@ -5,7 +5,6 @@ import logger from 'redux-logger';
 import jwtDecode from 'jwt-decode';
 
 import rootReducer from './reducers';
-import { LOGIN_SUCCESS } from './utils/ActionTypes';
 
 const middleware = applyMiddleware(thunk, promise, logger);
 

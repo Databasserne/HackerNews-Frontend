@@ -1,20 +1,24 @@
 import {
-    FETCHING_POST_DATA,
-    FETCHING_POST_DATA_SUCCESS,
-    FETCHING_POST_DATA_FAIL
+    FETCHING_POSTS,
+    FETCHING_POSTS_SUCCESS,
+    FETCHING_POSTS_FAIL,
+    FETCHING_POST,
+    FETCHING_POST_SUCCESS,
+    FETCHING_POST_FAIL
 } from '../utils/ActionTypes';
 
 const initialState = {
     isFetching: false,
     data: [],
     hasError: false,
-    errorMessage: null
+    errorMessage: null,
+    post: {}
 }
 
 
 export default (state = initialState, action) => {
-    switch(action.type){
-        case FETCHING_POST_DATA:
+    switch (action.type) {
+        case FETCHING_POSTS:
             return {
                 ...state,
                 isFetching: true,
@@ -22,7 +26,7 @@ export default (state = initialState, action) => {
                 hasError: false,
                 errorMessage: null
             };
-        case FETCHING_POST_DATA_SUCCESS: 
+        case FETCHING_POSTS_SUCCESS:
             return {
                 ...state,
                 isFetching: false,
@@ -30,7 +34,7 @@ export default (state = initialState, action) => {
                 hasError: false,
                 errorMessage: null
             };
-        case FETCHING_POST_DATA_FAIL:
+        case FETCHING_POSTS_FAIL:
             return {
                 ...state,
                 isFetching: false,
@@ -38,8 +42,21 @@ export default (state = initialState, action) => {
                 hasError: true,
                 errorMessage: action.payload
             };
+        case FETCHING_POST:
+            return {
+                ...state,
+                isFetching: true,
+                post: {},
+                hasError: false,
+                errorMessage: null
+            };
+        case FETCHING_POST_SUCCESS:
+            return {
+                ...state,
+                isFetching: false,
+                post: action.payload,
+            }
         default:
             return state;
     }
 };
-    

@@ -17,7 +17,7 @@ class Posts extends Component {
 
         const tBody = posts.data.map((post, index) => {
             return (
-                <Post key={index} number={index + 1} title={post.title} author={post.author_name} points={201} />
+                <Post key={index} number={index + 1} title={post.title} author={post.author_name} points={201} id={post.id} />
             );
         });
 
@@ -25,11 +25,6 @@ class Posts extends Component {
             <div>
                 <h1>Posts</h1>
                 <table className="table">
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                        </tr>
-                    </thead>
                     <tbody>
                         {tBody}
                     </tbody>
