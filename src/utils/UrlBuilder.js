@@ -27,3 +27,7 @@ export const getUpdateUserUrl = () => {
 export const upvotePostUrl = (id) => {
     return `${apiBaseURL}api/v1/post/${id}/upvote`
 }
+
+export const downvotePostUrl = (id) => {
+    return `${apiBaseURL}api/v1/post/${id}/downvote`
+}

@@ -3,7 +3,8 @@ import axios from 'axios';
 import {
     getPostsUrl,
     getPostUrl,
-    upvotePostUrl
+    upvotePostUrl,
+    downvotePostUrl
 } from '../utils/UrlBuilder';
 import {
     FETCHING_POSTS,
@@ -52,10 +53,20 @@ export function upvote(id) {
 
         axios.post(url)
             .then(res => {
-                dispatch(fetchPosts());
             })
             .catch(err => {
+            });
+    }
+}
 
+export function downvote(id) {
+    return dispatch => {
+        const url = downvotePostUrl(id);
+
+        axios.post(url)
+            .then(res => {
+            })
+            .catch(err => {
             });
     }
 }

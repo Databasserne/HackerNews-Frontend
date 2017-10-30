@@ -26,6 +26,9 @@ class Header extends Component {
             return (
                 <ul className="nav navbar-nav navbar-right">
                     <li>
+                        <Link to="/my-posts">My Posts</Link>
+                    </li>
+                    <li>
                         <Link to="/user">{this.props.fullname}</Link>
                     </li>
                     <li>

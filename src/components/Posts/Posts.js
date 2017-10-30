@@ -17,7 +17,15 @@ class Posts extends Component {
 
         const tBody = posts.data.map((post, index) => {
             return (
-                <Post key={index} number={index + 1} title={post.title} author={post.author_name} points={201} id={post.id} />
+                <Post 
+                    key={index} 
+                    title={post.title}
+                    author={post.author_name} 
+                    votes={post.votes} 
+                    id={post.id} 
+                    hasUpvoted={post.hasUpvoted} 
+                    hasDownvoted={post.hasDownvoted} 
+                />
             );
         });
 
