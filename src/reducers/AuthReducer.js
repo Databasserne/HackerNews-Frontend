@@ -4,7 +4,8 @@ import {
 } from '../utils/ActionTypes';
 
 const initialState = {
-    fullname: '',
+    isLoggedIn: false,
+    token: null
 }
 
 
@@ -13,12 +14,14 @@ export default (state = initialState, action) => {
         case LOGIN_SUCCESS:
             return { 
                 ...state, 
-                fullname: action.payload.fullname,
+                isLoggedIn: true, 
+                token: action.payload.token
             };
         case LOGOUT_SUCCESS:
             return { 
                 ...state, 
-                fullname: '',
+                isLoggedIn: false, 
+                token: null
             };
         default:
             return state;

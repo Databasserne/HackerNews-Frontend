@@ -4,7 +4,7 @@ import { login } from '../../actions/Authentication';
 import Login from './Login';
 
 const mapStateToProps = (state) => {
-    const { isLoggedIn } = state.user;
+    const { isLoggedIn } = state.auth;
     return {
         isLoggedIn
     };

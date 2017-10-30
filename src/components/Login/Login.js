@@ -15,6 +15,12 @@ class Login extends Component {
         this.handleChangePassword = this.handleChangePassword.bind(this);
     }
 
+    componentDidMount() {
+        if (this.props.isLoggedIn) {
+            this.props.history.push("/");
+        }
+    }
+    
     componentWillReceiveProps(nextProps) {
         if (nextProps.isLoggedIn) {
             this.props.history.push("/");

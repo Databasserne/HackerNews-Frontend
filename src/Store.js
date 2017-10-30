@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import promise from 'redux-promise';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
@@ -9,11 +9,7 @@ import { LOGIN_SUCCESS } from './utils/ActionTypes';
 
 const middleware = applyMiddleware(thunk, promise, logger);
 
-const Store = createStore(
-    rootReducer,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-    middleware
-);
+var initialState = undefined;
 
 if (window.localStorage) {
     const token = window.localStorage.getItem("token");
@@ -21,11 +17,26 @@ if (window.localStorage) {
     if (token != null) {
         const decodedJwt = jwtDecode(token);
 
-        Store.dispatch({
-            type: LOGIN_SUCCESS,
-            payload: { ...decodedJwt, token: token }
-        });
+        initialState = {
+            auth: {
+                token,
+                isLoggedIn: true
+            },
+            user: {
+                fullname: decodedJwt.fullname,
+                username: decodedJwt.username
+            }
+        }
     }
 }
+
+const Store = createStore(
+    rootReducer,
+    initialState,
+    compose(
+        middleware,
+        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+    )
+);
 
 export default Store;
