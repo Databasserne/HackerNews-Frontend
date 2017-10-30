@@ -1,4 +1,7 @@
 import {
+    REGISTER,
+    REGISTER_SUCCESS,
+    REGISTER_FAIL,
     LOGIN,
     LOGIN_SUCCESS,
     LOGIN_FAIL,
@@ -10,12 +13,34 @@ const initialState = {
     isFetching: false,
     token: null,
     hasError: false,
-    error: null
+    error: null,
+    didRegister: false
 }
 
 
 export default (state = initialState, action) => {
     switch (action.type) {
+        case REGISTER:
+            return {
+                ...state,
+                hasError: false,
+                error: null,
+                isFetching: true,
+                didRegister: false
+            };
+        case REGISTER_SUCCESS:
+            return {
+                ...state,
+                isFetching: false,
+                didRegister: true
+            };
+        case REGISTER_FAIL:
+            return {
+                ...state,
+                isFetching: false,
+                hasError: true,
+                error: action.payload
+            };
         case LOGIN:
             return {
                 ...state,

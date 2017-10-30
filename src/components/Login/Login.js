@@ -20,7 +20,7 @@ class Login extends Component {
             this.props.history.push("/");
         }
     }
-    
+
     componentWillReceiveProps(nextProps) {
         if (nextProps.isLoggedIn) {
             this.props.history.push("/");
@@ -45,12 +45,9 @@ class Login extends Component {
     }
 
     render() {
-
-        const isSubmitting = this.props.isFetching ? 'disabled' : '';
-
         var error;
 
-        if(this.props.hasError){
+        if (this.props.hasError) {
             error = (
                 <div>
                     <p>{this.props.error.error_message}</p>
@@ -69,7 +66,7 @@ class Login extends Component {
                         <label className="label label-default">Password</label>
                         <input className="form-control" type="password" value={this.state.password} onChange={this.handleChangePassword} />
                     </div>
-                    <input disabled={isSubmitting} type="submit" className="btn btn-default" />
+                    <input type="submit" className="btn btn-default" />
                     {error}
                 </form>
             </div>

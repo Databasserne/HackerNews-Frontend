@@ -1,3 +1,16 @@
-import Register from './Register';
+import { connect } from 'react-redux';
 
-export default Register;
+import Register from './Register';
+import { register } from '../../actions/Authentication'
+
+function mapStateToProps(state) {
+    const { isFetching, didRegister, error, hasError } = state.auth;
+    return {
+        isFetching,
+        didRegister,
+        error,
+        hasError
+    }
+}
+
+export default connect(mapStateToProps, { register })(Register);

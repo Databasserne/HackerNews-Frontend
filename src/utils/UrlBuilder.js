@@ -7,3 +7,7 @@ export const getPostsUrl = () => {
 export const getLoginUrl = () => {
     return `${apiBaseURL}api/v1/auth/login`;
 }
+
+export const getRegisterUrl = () => {
+    return `${apiBaseURL}api/v1/auth/signup`;
+}

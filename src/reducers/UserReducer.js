@@ -4,7 +4,7 @@ import {
 } from '../utils/ActionTypes';
 
 const initialState = {
-    fullname: '',
+    fullname: null,
 }
 
 
@@ -18,7 +18,7 @@ export default (state = initialState, action) => {
         case LOGOUT_SUCCESS:
             return { 
                 ...state, 
-                fullname: '',
+                fullname: null,
             };
         default:
             return state;

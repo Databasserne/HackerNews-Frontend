@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 
 import './style.css';
 
@@ -8,16 +7,23 @@ class Register extends Component {
     constructor(props) {
         super(props);
 
-        this.state = { fullName: '', username: '', password: '', repeatPassword: '' };
+        this.state = { fullname: '', username: '', password: '', repeatPassword: '' };
 
+        this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChangeFullname = this.handleChangeFullname.bind(this);
         this.handleChangeUsername = this.handleChangeUsername.bind(this);
         this.handleChangePassword = this.handleChangePassword.bind(this);
         this.handleChangeRepeatPassword = this.handleChangeRepeatPassword.bind(this);
     }
 
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.didRegister){
+            this.props.history.push("/login");
+        }
+    }
+
     handleChangeFullname(event) {
-        this.setState({ fullName: event.target.value });
+        this.setState({ fullname: event.target.value });
     }
 
     handleChangeUsername(event) {
@@ -33,21 +39,31 @@ class Register extends Component {
     }
 
     handleSubmit(event) {
-        const { fullName, username, password, repeatPassword } = this.state;
+        const { fullname, username, password, repeatPassword } = this.state;
         console.log("Submit:", username, password);
 
-        this.props.login(username, password);
+        this.props.register(fullname, username, password, repeatPassword);
 
         event.preventDefault();
     }
 
     render() {
+        var error;
+
+        if (this.props.hasError) {
+            error = (
+                <div>
+                    <p>{this.props.error.error_message}</p>
+                </div>
+            );
+        }
+
         return (
             <div className="container">
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
                         <label className="label label-default">Full name</label>
-                        <input className="form-control" type="text" value={this.state.fullName} onChange={this.handleChangeFullname} />
+                        <input className="form-control" type="text" value={this.state.fullname} onChange={this.handleChangeFullname} />
                     </div>
                     <div className="form-group">
                         <label className="label label-default">Username</label>
@@ -62,11 +78,12 @@ class Register extends Component {
                         <input className="form-control" type="password" value={this.state.repeatPassword} onChange={this.handleChangeRepeatPassword} />
                     </div>
                     <input type="submit" className="btn btn-default" />
+                    {error}
                 </form>
             </div>
         )
     }
 }
 
-export default connect()(Register);
+export default Register;
 
