@@ -1,6 +1,10 @@
 import axios from 'axios';
 
-import { getPostsUrl, getPostUrl } from '../utils/UrlBuilder';
+import {
+    getPostsUrl,
+    getPostUrl,
+    upvotePostUrl
+} from '../utils/UrlBuilder';
 import {
     FETCHING_POSTS,
     FETCHING_POSTS_SUCCESS,
@@ -38,6 +42,20 @@ export function fetchPost(id) {
             })
             .catch(err => {
                 dispatch({ type: FETCHING_POST_FAIL, payload: err.data });
+            });
+    }
+}
+
+export function upvote(id) {
+    return dispatch => {
+        const url = upvotePostUrl(id);
+
+        axios.post(url)
+            .then(res => {
+                dispatch(fetchPosts());
+            })
+            .catch(err => {
+
             });
     }
 }

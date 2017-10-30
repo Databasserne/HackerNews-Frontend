@@ -1,3 +1,8 @@
-import Post from './Post';
+import { connect } from 'react-redux';
 
-export default Post;
+import Post from './Post';
+import { upvote } from '../../../actions/Posts';
+
+
+
+export default connect(null, { upvote })(Post);

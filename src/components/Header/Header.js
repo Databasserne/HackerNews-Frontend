@@ -26,6 +26,9 @@ class Header extends Component {
             return (
                 <ul className="nav navbar-nav navbar-right">
                     <li>
+                        <Link to="/user">{this.props.fullname}</Link>
+                    </li>
+                    <li>
                         <a onClick={this.props.logout}>Logout</a>
                     </li>
                 </ul>
@@ -44,7 +47,7 @@ class Header extends Component {
                             <span className="icon-bar"></span>
                             <span className="icon-bar"></span>
                         </button>
-                        <Link className="navbar-brand" to="/">HackerNews - {this.props.fullname}</Link>
+                        <Link className="navbar-brand" to="/">HackerNews</Link>
                     </div>
                     {this.renderUserSection()}
                 </div>

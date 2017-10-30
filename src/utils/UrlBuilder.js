@@ -15,3 +15,7 @@ export const getLoginUrl = () => {
 export const getRegisterUrl = () => {
     return `${apiBaseURL}api/v1/auth/signup`;
 }
+
+export const upvotePostUrl = (id) => {
+    return `${apiBaseURL}api/v1/post/${id}/upvote`
+}

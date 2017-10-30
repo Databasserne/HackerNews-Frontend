@@ -21,7 +21,8 @@ class Post extends Component {
             return;
         }
 
-        this.setState({ upvoted: !this.state.upvoted });
+        this.props.upvote(this.props.id);
+
     }
 
     downvote() {
