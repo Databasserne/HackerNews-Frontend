@@ -44,7 +44,7 @@ class Header extends Component {
                             <span className="icon-bar"></span>
                             <span className="icon-bar"></span>
                         </button>
-                        <Link className="navbar-brand" to="/">HackerNews - {this.props.fullName}</Link>
+                        <Link className="navbar-brand" to="/">HackerNews - {this.props.fullname}</Link>
                     </div>
                     {this.renderUserSection()}
                 </div>

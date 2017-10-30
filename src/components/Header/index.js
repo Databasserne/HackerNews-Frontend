@@ -5,11 +5,11 @@ import { logout } from '../../actions/Authentication';
 
 
 const mapStateToProps = (state) => {
-    const { fullName } = state.user;
+    const { fullname } = state.user;
     const { isLoggedIn } = state.auth;
     return {
         isLoggedIn,
-        fullName 
+        fullname 
     };
 }
 

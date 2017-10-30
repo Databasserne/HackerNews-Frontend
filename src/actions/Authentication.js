@@ -24,8 +24,8 @@ export function login(username, password) {
             }
 
             dispatch({ type: LOGIN_SUCCESS, payload: res.data });
-        }).catch(err => {
-            dispatch({ type: LOGIN_FAIL });
+        }).catch((err) => {
+            dispatch({ type: LOGIN_FAIL, payload: err.response.data });
         })
     }
 }

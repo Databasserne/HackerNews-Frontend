@@ -4,9 +4,11 @@ import { login } from '../../actions/Authentication';
 import Login from './Login';
 
 const mapStateToProps = (state) => {
-    const { isLoggedIn } = state.auth;
+    const { isLoggedIn, hasError, error } = state.auth;
     return {
-        isLoggedIn
+        isLoggedIn,
+        hasError,
+        error
     };
 }
 

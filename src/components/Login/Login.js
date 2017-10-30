@@ -45,6 +45,19 @@ class Login extends Component {
     }
 
     render() {
+
+        const isSubmitting = this.props.isFetching ? 'disabled' : '';
+
+        var error;
+
+        if(this.props.hasError){
+            error = (
+                <div>
+                    <p>{this.props.error.error_message}</p>
+                </div>
+            );
+        }
+
         return (
             <div className="container">
                 <form onSubmit={this.handleSubmit}>
@@ -56,7 +69,8 @@ class Login extends Component {
                         <label className="label label-default">Password</label>
                         <input className="form-control" type="password" value={this.state.password} onChange={this.handleChangePassword} />
                     </div>
-                    <input type="submit" className="btn btn-default" />
+                    <input disabled={isSubmitting} type="submit" className="btn btn-default" />
+                    {error}
                 </form>
             </div>
         );
