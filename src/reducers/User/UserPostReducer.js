@@ -1,10 +1,15 @@
 import {
     FETCHING_USER_POST,
     FETCHING_USER_POST_SUCCESS,
-    FETCHING_USER_POST_FAIL
+    FETCHING_USER_POST_FAIL,
+    EDIT_POST,
+    CANCEL_EDIT_POST,
+    EDIT_POST_SUBMIT_SUCCESS
 } from '../../utils/ActionTypes';
 
 const initialState = {
+    isEditing: false,
+    editPost: {},
     isFetching: false,
     data: [],
     hasError: false,
@@ -36,6 +41,24 @@ export default (state = initialState, action) => {
                 data: [],
                 hasError: true,
                 errorMessage: action.payload
+            };
+        case EDIT_POST:
+            return {
+                ...state,
+                isEditing: true,
+                editPost: action.payload
+            };
+        case CANCEL_EDIT_POST:
+            return {
+                ...state,
+                isEditing: false,
+                editPost: {}
+            };
+        case EDIT_POST_SUBMIT_SUCCESS:
+            return {
+                ...state,
+                isEditing: false,
+                editPost: {}
             };
         default:
             return state;

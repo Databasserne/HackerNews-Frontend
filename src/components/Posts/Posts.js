@@ -11,10 +11,6 @@ class Posts extends Component {
     render() {
         const { posts } = this.props;
 
-        if (this.props.posts.isFetching) {
-            return <h1>Loading...</h1>
-        }
-
         const tBody = posts.data.map((post) => {
             return (
                 <Post 

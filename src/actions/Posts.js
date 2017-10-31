@@ -10,7 +10,10 @@ import {
     FETCHING_POST_FAIL,
     FETCHING_USER_POST,
     FETCHING_USER_POST_SUCCESS,
-    FETCHING_USER_POST_FAIL
+    FETCHING_USER_POST_FAIL,
+    EDIT_POST,
+    CANCEL_EDIT_POST,
+    EDIT_POST_SUBMIT_SUCCESS
 } from '../utils/ActionTypes';
 
 export function fetchPosts() {
@@ -51,6 +54,7 @@ export function upvote(id) {
 
         axios.post(url)
             .then(res => {
+                dispatch(fetchPosts());
             })
             .catch(err => {
             });
@@ -63,6 +67,7 @@ export function downvote(id) {
 
         axios.post(url)
             .then(res => {
+                dispatch(fetchPosts());
             })
             .catch(err => {
             });
@@ -86,10 +91,31 @@ export function fetchUserPosts() {
 }
 
 
-export function editPost(id, post) {
+export function editPost(post) {
     return dispatch => {
-
+        dispatch({ type: EDIT_POST, payload: post });
     };
+}
+
+export function cancelEditPost(post) {
+    return dispatch => {
+        dispatch({ type: CANCEL_EDIT_POST });
+    };
+}
+
+export function editPostSubmit(post) {
+    return dispatch => {
+        const url = UrlBuilder.getEditPostUrl(post.id);
+
+        axios.put(url, {
+            title: post.title,
+            body: post.body
+        })
+            .then(res => {
+                dispatch(fetchUserPosts());
+                dispatch({ type: EDIT_POST_SUBMIT_SUCCESS });
+            });
+    }
 }
 
 export function deletePost(id) {
