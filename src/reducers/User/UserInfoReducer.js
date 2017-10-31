@@ -5,7 +5,7 @@ import {
     FETCHING_USER_SUCCESS,
     UPDATE_USER,
     UPDATE_USER_SUCCESS
-} from '../utils/ActionTypes';
+} from '../../utils/ActionTypes';
 
 const initialState = {
     fullname: null,

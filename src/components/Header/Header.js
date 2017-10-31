@@ -8,6 +8,11 @@ class Header extends Component {
         super(props);
 
         this.renderUserSection = this.renderUserSection.bind(this);
+        this.handleLogout = this.handleLogout.bind(this);
+    }
+
+    handleLogout(event) {
+        this.props.logout();
     }
 
     renderUserSection = () => {
@@ -32,7 +37,7 @@ class Header extends Component {
                         <Link to="/user">{this.props.fullname}</Link>
                     </li>
                     <li>
-                        <a onClick={this.props.logout}>Logout</a>
+                        <a onClick={this.handleLogout}>Logout</a>
                     </li>
                 </ul>
             );

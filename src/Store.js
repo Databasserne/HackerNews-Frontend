@@ -22,8 +22,10 @@ if (window.localStorage) {
                 isLoggedIn: true
             },
             user: {
-                fullname: decodedJwt.fullname,
-                username: decodedJwt.username
+                userInfo: {
+                    fullname: decodedJwt.fullname,
+                    username: decodedJwt.username
+                }
             }
         }
     }

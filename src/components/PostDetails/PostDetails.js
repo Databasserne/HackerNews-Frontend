@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import './style.css';
+
 class PostDetails extends Component {
 
     componentDidMount() {
@@ -21,7 +23,8 @@ class PostDetails extends Component {
             <div>
                 <h1>{title}</h1>
                 <p>{body}</p>
-                <p>By {author_name}, posted {created_at}</p>
+                <p className="byline">By {author_name}, posted {created_at}</p>
+                <h2>Comments</h2>
             </div>
         );
     }

@@ -15,10 +15,10 @@ class Posts extends Component {
             return <h1>Loading...</h1>
         }
 
-        const tBody = posts.data.map((post, index) => {
+        const tBody = posts.data.map((post) => {
             return (
                 <Post 
-                    key={index} 
+                    key={post.id} 
                     title={post.title}
                     author={post.author_name} 
                     votes={post.votes} 

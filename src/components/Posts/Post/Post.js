@@ -12,6 +12,9 @@ class Post extends Component {
 
         this.upvote = this.upvote.bind(this);
         this.downvote = this.downvote.bind(this);
+        this.renderVotesButtons = this.renderVotesButtons.bind(this);
+        this.editPost = this.editPost.bind(this);
+        this.deletePost = this.deletePost.bind(this);
     }
 
     upvote() {
@@ -34,10 +37,8 @@ class Post extends Component {
         this.props.downvote(this.props.id);
     }
 
-    render() {
-        const { title, author, id } = this.props;
-        const { votes } = this.state;
-
+    renderVotesButtons() {
+        if (this.props.ownPost) return;
 
         var upvoteClass = "glyphicon glyphicon-arrow-up";
         upvoteClass += this.state.upvoted ? " upvoted" : "";
@@ -45,19 +46,50 @@ class Post extends Component {
         var downvoteClass = "glyphicon glyphicon-arrow-down";
         downvoteClass += this.state.downvoted ? " downvoted" : "";
 
+        return (
+            <span>
+                <i onClick={this.upvote} className={upvoteClass} /><i onClick={this.downvote} className={downvoteClass} />
+            </span>
+        );
+    }
+
+    editPost() {
+        this.props.editPost(this.props.id);
+    }
+
+    deletePost() {
+        this.props.deletePost(this.props.id);
+    }
+
+    renderActionButtons() {
+        if (!this.props.ownPost) return;
+
+        return (
+            <td>
+                <div className="btn btn-warning" onClick={this.editPost}>Edit</div>
+                <div className="btn btn-danger" onClick={this.deletePost}>Delete</div>
+            </td>
+        );
+    }
+
+    render() {
+        const { title, author, id } = this.props;
+        const { votes } = this.state;
+
         const postDetailLink = `/post/${id}`;
-        
+
         return (
             <tr>
                 <td>
                     <div>
-                        <span>{votes}. <i onClick={this.upvote} className={upvoteClass} /><i onClick={this.downvote} className={downvoteClass} /></span>
+                        <span>{votes}. {this.renderVotesButtons()}</span>
                     </div>
                     <div>
                         <Link className="title" to={postDetailLink}>{title}</Link><br />
-                    <span className="by-line">Author: {author}</span>
+                        <span className="by-line">Author: {author}</span>
                     </div>
                 </td>
+                {this.renderActionButtons()}
             </tr >
         );
     }

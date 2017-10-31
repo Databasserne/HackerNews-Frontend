@@ -31,3 +31,15 @@ export const upvotePostUrl = (id) => {
 export const downvotePostUrl = (id) => {
     return `${apiBaseURL}api/v1/post/${id}/downvote`
 }
+
+export const getUserPostsUrl = () => {
+    return `${apiBaseURL}api/v1/user/post`
+}
+
+export const getEditPostUrl = (id) => {
+    return `${apiBaseURL}api/v1/post/${id}`
+}
+
+export const getDeletePostUrl = (id) => {
+    return `${apiBaseURL}api/v1/post/${id}`
+}

@@ -4,7 +4,7 @@ import Profile from './Profile';
 import { fetchUser, updateUser } from '../../actions/User';
 
 function mapStateToProps(state) {
-    const { fullname } = state.user;
+    const { fullname } = state.user.userInfo;
 
     return {
         fullname
