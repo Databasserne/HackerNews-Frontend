@@ -43,3 +43,7 @@ export const getEditPostUrl = (id) => {
 export const getDeletePostUrl = (id) => {
     return `${apiBaseURL}api/v1/post/${id}`
 }
+
+export const getNewPostUrl = () => {
+    return `${apiBaseURL}api/v1/post`
+}

@@ -12,6 +12,13 @@ class UserPosts extends Component {
         this.deletePost = this.deletePost.bind(this);
         this.editPostSubmit = this.editPostSubmit.bind(this);
         this.cancelEditPost = this.cancelEditPost.bind(this);
+        this.newPost = this.newPost.bind(this);
+        this.cancelNewPost = this.cancelNewPost.bind(this);
+        this.newPostSubmit = this.newPostSubmit.bind(this);
+    }
+
+    newPost(event) {
+        this.props.newPost();
     }
 
     editPost(id) {
@@ -25,36 +32,53 @@ class UserPosts extends Component {
     cancelEditPost() {
         this.props.cancelEditPost();
     }
+    
+    editPostSubmit(title, body) {
+        var post = { ...this.props.posts.post };
+        
+        post.title = title;
+        post.body = body;
+        
+        this.props.editPostSubmit(post);
+    }
 
+    cancelNewPost() {
+        this.props.cancelNewPost();
+    }
+    
+    newPostSubmit(title, body) {
+        this.props.newPostSubmit(title, body);
+    }
+    
     deletePost(id) {
         this.props.deletePost(id);
     }
 
-    editPostSubmit(title, body) {
-        var post = {...this.props.posts.editPost};
-
-        post.title = title;
-        post.body = body;
-
-        this.props.editPostSubmit(post);
-    }
-
     render() {
-        const { isEditing } = this.props.posts;
+        const { isEditing, isCreatingNewPost } = this.props.posts;
 
         var body;
 
         if (isEditing) {
-            const { editPost } = this.props.posts;
+            const { post } = this.props.posts;
 
             body = (
                 <PostForm
                     submitValue={"Update"}
                     cancelValue={"Cancel"}
-                    title={editPost.title}
-                    body={editPost.body}
+                    title={post.title}
+                    body={post.body}
                     onSubmit={this.editPostSubmit}
                     onCancel={this.cancelEditPost}
+                />
+            );
+        } else if (isCreatingNewPost) {
+            body = (
+                <PostForm
+                    submitValue={"Save"}
+                    cancelValue={"Cancel"}
+                    onSubmit={this.newPostSubmit}
+                    onCancel={this.cancelNewPost}
                 />
             );
         } else {
@@ -88,7 +112,7 @@ class UserPosts extends Component {
             <div>
                 <div className="container">
                     <div>
-                        <h1>My Posts</h1>
+                        <h1>My Posts <div className="btn btn-success" onClick={this.newPost}>New post</div></h1>
                     </div>
                 </div>
                 {body}

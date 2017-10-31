@@ -13,7 +13,10 @@ import {
     FETCHING_USER_POST_FAIL,
     EDIT_POST,
     CANCEL_EDIT_POST,
-    EDIT_POST_SUBMIT_SUCCESS
+    EDIT_POST_SUBMIT_SUCCESS,
+    NEW_POST,
+    NEW_POST_SUBMIT_SUCCESS,
+    CANCEL_NEW_POST
 } from '../utils/ActionTypes';
 
 export function fetchPosts() {
@@ -90,6 +93,32 @@ export function fetchUserPosts() {
     }
 }
 
+export function newPost() {
+    return dispatch => {
+        dispatch({ type: NEW_POST });
+    }
+}
+
+
+export function cancelNewPost(post) {
+    return dispatch => {
+        dispatch({ type: CANCEL_NEW_POST });
+    };
+}
+
+export function newPostSubmit(title, body) {
+    return dispatch => {
+        const url = UrlBuilder.getNewPostUrl();
+
+        axios.post(url, {
+            title, body
+        })
+            .then(res => {
+                dispatch(fetchUserPosts());
+                dispatch({ type: NEW_POST_SUBMIT_SUCCESS });
+            });
+    }
+}
 
 export function editPost(post) {
     return dispatch => {

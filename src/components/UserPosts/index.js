@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import UserPosts from './UserPosts';
-import { fetchUserPosts, deletePost, editPost, editPostSubmit, cancelEditPost } from '../../actions/Posts';
+import { fetchUserPosts, deletePost, editPost, editPostSubmit, cancelEditPost, newPost, cancelNewPost, newPostSubmit } from '../../actions/Posts';
 
 function mapStateToProps(state) {
     return {
@@ -9,4 +9,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, { fetchUserPosts, deletePost, editPost, editPostSubmit, cancelEditPost })(UserPosts);
+export default connect(mapStateToProps, { fetchUserPosts, deletePost, editPost, editPostSubmit, cancelEditPost, newPost, cancelNewPost, newPostSubmit })(UserPosts);
