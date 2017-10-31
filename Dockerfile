@@ -1,5 +1,7 @@
 FROM node:7.8.0
 
+ENV NPM_CONFIG_LOGLEVEL warn
+
 COPY . .
 RUN npm install 
 RUN npm install -g serve
