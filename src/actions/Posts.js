@@ -19,6 +19,17 @@ import {
     CANCEL_NEW_POST
 } from '../utils/ActionTypes';
 
+const makeAuth = (getState, method, url, data) => {
+    return {
+        method: method,
+        url: url,
+        data: data,
+        headers: {
+            'Authorization': `Bearer ${getState().auth.token}`
+        }
+    };
+}
+
 export function fetchPosts() {
     return dispatch => {
         dispatch({ type: FETCHING_POSTS });
@@ -52,10 +63,10 @@ export function fetchPost(id) {
 }
 
 export function upvote(id) {
-    return dispatch => {
+    return (dispatch, getState) => {
         const url = UrlBuilder.upvotePostUrl(id);
 
-        axios.post(url)
+        axios(makeAuth(getState, 'POST', url))
             .then(res => {
                 dispatch(fetchPosts());
             })
@@ -65,10 +76,10 @@ export function upvote(id) {
 }
 
 export function downvote(id) {
-    return dispatch => {
+    return (dispatch, getState) => {
         const url = UrlBuilder.downvotePostUrl(id);
 
-        axios.post(url)
+        axios(makeAuth(getState, 'POST', url))
             .then(res => {
                 dispatch(fetchPosts());
             })
@@ -78,12 +89,12 @@ export function downvote(id) {
 }
 
 export function fetchUserPosts() {
-    return dispatch => {
+    return (dispatch, getState) => {
         dispatch({ type: FETCHING_USER_POST });
 
         const url = UrlBuilder.getUserPostsUrl();
 
-        axios.get(url)
+        axios(makeAuth(getState, 'GET', url))
             .then(res => {
                 dispatch({ type: FETCHING_USER_POST_SUCCESS, payload: res.data });
             })
@@ -107,12 +118,10 @@ export function cancelNewPost(post) {
 }
 
 export function newPostSubmit(title, body) {
-    return dispatch => {
+    return (dispatch, getState) => {
         const url = UrlBuilder.getNewPostUrl();
 
-        axios.post(url, {
-            title, body
-        })
+        axios(makeAuth(getState, 'POST', url, { title, body }))
             .then(res => {
                 dispatch(fetchUserPosts());
                 dispatch({ type: NEW_POST_SUBMIT_SUCCESS });

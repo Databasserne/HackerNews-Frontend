@@ -13,13 +13,26 @@ import {
     UPDATE_USER_FAIL
 } from '../utils/ActionTypes';
 
+
+
+const makeAuth = (getState, method, url, data) => {
+    return {
+        method: method,
+        url: url,
+        data: data,
+        headers: {
+            'Authorization': `Bearer ${getState().auth.token}`
+        }
+    };
+}
+
 export function fetchUser() {
-    return dispatch => {
+    return (dispatch, getState) => {
         dispatch({ type: FETCHING_USER });
 
         const url = userInfoUrl();
 
-        axios.get(url)
+        axios(makeAuth(getState, 'GET', url))
             .then(res => {
                 dispatch({ type: FETCHING_USER_SUCCESS, payload: res.data });
             })
@@ -30,15 +43,14 @@ export function fetchUser() {
 }
 
 export function updateUser(fullname) {
-    return dispatch => {
+    return (dispatch, getState) => {
         dispatch({ type: UPDATE_USER });
 
         const url = getUpdateUserUrl();
 
-        axios.put(url, {
-            fullname: fullname
-        })
+        axios(makeAuth(getState, 'PUT', url, { fullname }))
             .then(res => {
+                dispatch(fetchUser());
                 dispatch({ type: UPDATE_USER_SUCCESS });
             })
             .catch(err => {
