@@ -9,6 +9,7 @@ class Profile extends Component {
 
         this.state = { fullname: '' };
 
+        this.handleChangeFullname = this.handleChangeFullname.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -18,6 +19,10 @@ class Profile extends Component {
         this.setState({ fullname });
 
         this.props.fetchUser();
+    }
+
+    handleChangeFullname(event) {
+        this.setState({ fullname: event.target.value });
     }
 
     handleSubmit(event) {
@@ -34,7 +39,7 @@ class Profile extends Component {
                     <form onSubmit={this.handleSubmit}>
                         <div className="form-group">
                             <label className="label label-default">Full Name</label>
-                            <input type="text" className="form-control" value={this.state.fullname} />
+                            <input type="text" className="form-control" value={this.state.fullname} onChange={this.handleChangeFullname} />
                         </div>
                         <input type="submit" className="btn btn-default" value="Update" />
                     </form>
