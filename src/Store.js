@@ -31,6 +31,9 @@ if (window.localStorage) {
     }
 }
 
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const Store = createStore(rootReducer, initialState, composeEnhancers(middleware));
+/*
 var Store;
 
 if (process.env.NODE_ENV === 'production') {
@@ -48,6 +51,6 @@ if (process.env.NODE_ENV === 'production') {
             window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
         )
     );
-}
+}*/
 
 export default Store;
