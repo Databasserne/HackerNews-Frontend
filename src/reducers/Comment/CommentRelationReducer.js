@@ -1,18 +1,29 @@
 import {
+    FETCHING_COMMENT_SUCCESS
 } from '../../utils/ActionTypes';
 
-const initialState = {
-    0: [1, 4],
-    1: [2],
-    2: [3],
-    4: [5, 7],
-    5: [6],
-    7: [8]
-};
-
+const initialState = {};
 
 export default (state = initialState, action) => {
     switch (action.type) {
+        case FETCHING_COMMENT_SUCCESS:
+            const comments = action.payload;
+
+            var relInfo = {};
+
+            for(var i = 0; i < comments.length; i++){
+                const comment = comments[i];
+
+                if(relInfo[comment.parentCommentId] === undefined){
+                    relInfo[comment.parentCommentId] = [comment.id];
+                } else {
+                    relInfo[comment.parentCommentId].push(comment.id);
+                }
+            }
+
+            return {
+                ...relInfo
+            }
         default:
             return state;
     }

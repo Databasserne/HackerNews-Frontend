@@ -25,25 +25,37 @@ export const getUpdateUserUrl = () => {
 }
 
 export const upvotePostUrl = (id) => {
-    return `${apiBaseURL}api/v1/post/${id}/upvote`
+    return `${apiBaseURL}api/v1/post/${id}/upvote`;
 }
 
 export const downvotePostUrl = (id) => {
-    return `${apiBaseURL}api/v1/post/${id}/downvote`
+    return `${apiBaseURL}api/v1/post/${id}/downvote`;
 }
 
 export const getUserPostsUrl = () => {
-    return `${apiBaseURL}api/v1/user/post`
+    return `${apiBaseURL}api/v1/user/post`;
 }
 
 export const getEditPostUrl = (id) => {
-    return `${apiBaseURL}api/v1/post/${id}`
+    return `${apiBaseURL}api/v1/post/${id}`;
 }
 
 export const getDeletePostUrl = (id) => {
-    return `${apiBaseURL}api/v1/post/${id}`
+    return `${apiBaseURL}api/v1/post/${id}`;
 }
 
 export const getNewPostUrl = () => {
-    return `${apiBaseURL}api/v1/post`
+    return `${apiBaseURL}api/v1/post`;
+}
+
+export const getCommentUpvoteUrl = (postId, commentId) => {
+    return `${apiBaseURL}api/v1/post/${postId}/comment/${commentId}/upvote`;
+}
+
+export const getCommentDownvoteUrl = (postId, commentId) => {
+    return `${apiBaseURL}api/v1/post/${postId}/comment/${commentId}/downvote`;
+}
+
+export const getCommentsUrl = (postId) => {
+    return `${apiBaseURL}api/v1/post/${postId}/comment`;
 }

@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 
 import PostDetails from './PostDetails';
 import { fetchPost } from '../../actions/Posts';
+import { upvote, downvote, clearVoteError, fetchComments } from '../../actions/Comments';
 
 function mapComments(rootIds, relation, info) {
     if(rootIds === undefined) return [];
@@ -16,6 +17,7 @@ function mapComments(rootIds, relation, info) {
             votes: info[id].votes,
             hasUpvoted: info[id].hasUpvoted,
             hasDownvoted: info[id].hasDownvoted,
+            createdAt: info[id].createdAt,
             comments: comments
         };
     });
@@ -28,16 +30,15 @@ function mapStateToProps(state) {
 
     const comments = mapComments(rootIds, relation, info);
 
-    console.log(comments);
-
-    const { isFetching, post, hasError, errorMessage } = state.posts;
+    const { isFetching, post, hasError, errorMessage, voteError } = state.posts;
     return {
         isFetching,
         post,
         hasError,
         errorMessage,
+        voteError,
         comments
     };
 }
 
-export default connect(mapStateToProps, { fetchPost })(PostDetails);
+export default connect(mapStateToProps, { fetchPost, upvote, downvote, clearVoteError, fetchComments })(PostDetails);

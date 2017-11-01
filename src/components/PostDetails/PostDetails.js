@@ -8,8 +8,26 @@ class PostDetails extends Component {
         const id = this.props.match.params.number;
 
         this.props.fetchPost(id);
+        this.props.fetchComments(id);
         this.renderComments = this.renderComments.bind(this)
         this.renderVotesButtons = this.renderVotesButtons.bind(this);
+        this.upvote = this.upvote.bind(this);
+        this.downvote = this.downvote.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.post.voteError != null) {
+            alert(nextProps.posts.voteError);
+            nextProps.clearVoteError();
+        }
+    }
+
+    upvote(event) {
+        this.props.upvote(this.props.post.id, event.target.id);
+    }
+
+    downvote(event) {
+        this.props.downvote(this.props.post.id, event.target.id);
     }
 
     renderVotesButtons(comment) {
@@ -23,7 +41,7 @@ class PostDetails extends Component {
 
         return (
             <span className="arrows">
-                <i onClick={this.upvote} className={upvoteClass} /><i onClick={this.downvote} className={downvoteClass} />
+                <i onClick={this.upvote} className={upvoteClass} id={comment.id} /><i onClick={this.downvote} className={downvoteClass} id={comment.id} />
             </span>
         );
     }
@@ -34,8 +52,8 @@ class PostDetails extends Component {
         return comments.map(comment => {
             const commentDOM = (
                 <div>
-                    <p>{comment.votes} {this.renderVotesButtons(comment)} - {comment.body}</p>
-                    <p className="byline">Author: {comment.author}</p>
+                    <p>{comment.votes} {this.renderVotesButtons(comment)} - {comment.body} {comment.id}</p>
+                    <p className="byline">Created by {comment.author} at {comment.createdAt}</p>
                 </div>
             );
 
