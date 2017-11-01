@@ -29,7 +29,9 @@ export function addCommentToPost(postId, comment) {
         })
             .then(res => {
                 if (res.status === 200) {
-                    dispatch({ type: ADD_COMMENT_SUCCESS, payload: res.json() });
+                    res.json().then(data => {
+                        dispatch({ type: ADD_COMMENT_SUCCESS, payload: data });
+                    });
                 }
             });
     }
@@ -43,7 +45,11 @@ export function fetchComments(postId) {
 
         createRequest(getState, 'GET', url)
             .then(res => {
-                dispatch({ type: FETCHING_COMMENT_SUCCESS, payload: res.json() });
+                if(res.status === 200) {
+                    res.json().then(data => {
+                        dispatch({ type: FETCHING_COMMENT_SUCCESS, payload: data });
+                    });
+                }
             });
     }
 }
@@ -57,7 +63,9 @@ export function upvote(postId, commentId) {
         createRequest(getState, 'POST', url)
             .then(res => {
                 if(res.status !== 200){
-                    dispatch({ type: UPVOTE_FAIL, payload: res.json().error_message });
+                    res.json().then(err => {
+                        dispatch({ type: UPVOTE_FAIL, payload: err.error_message });
+                    });
                 }
             });
     };
@@ -72,7 +80,9 @@ export function downvote(postId, commentId) {
         createRequest(getState, 'POST', url)
             .then(res => {
                 if(res.status !== 200){
-                    dispatch({ type: DOWNVOTE_FAIL, payload: res.json().error_message });
+                    res.json().then(err => {
+                        dispatch({ type: DOWNVOTE_FAIL, payload: err.error_message });
+                    });
                 }
             });
     };

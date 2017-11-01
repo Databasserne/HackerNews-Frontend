@@ -20,15 +20,19 @@ export function login(username, password) {
             password: password
         }).then(res => {
             if (res.status === 200) {
-                const { token } = res.json();
+                res.json().then(data => {
+                    const { token } = data;
 
-                if (window.localStorage) {
-                    window.localStorage.setItem("token", token);
-                }
+                    if (window.localStorage) {
+                        window.localStorage.setItem("token", token);
+                    }
 
-                dispatch({ type: LOGIN_SUCCESS, payload: res.json() });
+                    dispatch({ type: LOGIN_SUCCESS, payload: data });
+                })
             } else {
-                dispatch({ type: LOGIN_FAIL, payload: res.json() });
+                res.json().then(err => {
+                    dispatch({ type: LOGIN_FAIL, payload: err });
+                })
             }
         });
     }
@@ -47,7 +51,9 @@ export function register(fullname, username, password, repeatPassword) {
             if (res === 201) {
                 dispatch({ type: REGISTER_SUCCESS });
             } else {
-                dispatch({ type: REGISTER_FAIL, payload: res.json() });
+                res.json().then(err => {
+                    dispatch({ type: REGISTER_FAIL, payload: res.json() });
+                })
             }
         });
     }

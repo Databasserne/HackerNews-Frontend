@@ -21,9 +21,13 @@ export function fetchUser() {
         createRequest(getState, 'GET', url)
             .then(res => {
                 if (res.status === 200) {
-                    dispatch({ type: FETCHING_USER_SUCCESS, payload: res.json() });
+                    res.json().then(data => {
+                        dispatch({ type: FETCHING_USER_SUCCESS, payload: data });
+                    });
                 } else {
-                    dispatch({ type: FETCHING_USER_FAIL, payload: res.json() });
+                    res.json().then(err => {
+                        dispatch({ type: FETCHING_USER_FAIL, payload: err });
+                    });
                 }
             });
     }
@@ -41,7 +45,9 @@ export function updateUser(fullname) {
                     dispatch(fetchUser());
                     dispatch({ type: UPDATE_USER_SUCCESS });
                 } else {
-                    dispatch({ type: UPDATE_USER_FAIL, payload: res.json() });
+                    res.json().then(err => {
+                        dispatch({ type: UPDATE_USER_FAIL, payload: err });
+                    });
                 }
             });
     }

@@ -32,9 +32,13 @@ export function fetchPosts() {
         createRequest(getState, 'GET', url)
             .then(res => {
                 if (res.status === 200) {
-                    dispatch({ type: FETCHING_POSTS_SUCCESS, payload: res.json() });
+                    res.json().then(data => {
+                        dispatch({ type: FETCHING_POSTS_SUCCESS, payload: data });
+                    });
                 } else {
-                    dispatch({ type: FETCHING_POSTS_FAIL, payload: res.json() });
+                    res.json().then(err => {
+                        dispatch({ type: FETCHING_POSTS_FAIL, payload: err });
+                    });
                 }
             });
     };
@@ -49,9 +53,13 @@ export function fetchPost(id) {
         createRequest(getState, 'GET', url)
             .then(res => {
                 if (res.status === 200) {
-                    dispatch({ type: FETCHING_POST_SUCCESS, payload: res.json() });
+                    res.json().then(data => {
+                        dispatch({ type: FETCHING_POST_SUCCESS, payload: data });
+                    });
                 } else {
-                    dispatch({ type: FETCHING_POST_FAIL, payload: res.json() });
+                    res.json().then(err => {
+                        dispatch({ type: FETCHING_POST_FAIL, payload: err });
+                    });
                 }
             });
     };
@@ -68,7 +76,9 @@ export function upvote(id) {
                 if (res === 200) {
                     dispatch(fetchPosts());
                 } else {
-                    dispatch({ type: UPVOTE_FAIL, payload: res.json().error_message });
+                    res.json().then(err => {
+                        dispatch({ type: UPVOTE_FAIL, payload: err.error_message });
+                    });
                 }
             });
     };
@@ -85,7 +95,9 @@ export function downvote(id) {
                 if (res === 200) {
                     dispatch(fetchPosts());
                 } else {
-                    dispatch({ type: DOWNVOTE_FAIL, payload: res.json().error_message });
+                    res.json().then(err => {
+                        dispatch({ type: DOWNVOTE_FAIL, payload: err.error_message });
+                    });
                 }
             });
     };
@@ -127,8 +139,10 @@ export function newPostSubmit(title, body) {
 
         createRequest(getState, 'POST', url, { title, body })
             .then(res => {
-                dispatch(fetchUserPosts());
-                dispatch({ type: NEW_POST_SUBMIT_SUCCESS });
+                if (res.status === 201) {
+                    dispatch(fetchUserPosts());
+                    dispatch({ type: NEW_POST_SUBMIT_SUCCESS });
+                }
             });
     }
 }
