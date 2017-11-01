@@ -12,13 +12,6 @@ import {
 } from '../utils/ActionTypes';
 import { createRequest } from './utils';
 
-const makeHeaders = (getState) => {
-    return {
-        'Authorization': `Bearer ${getState().auth.token}`,
-        'Content-Type': 'application/json'
-    }
-}
-
 export function addComment() {
     return dispatch => {
         dispatch({ type: ADD_COMMENT });
@@ -63,8 +56,8 @@ export function upvote(postId, commentId) {
 
         createRequest(getState, 'POST', url)
             .then(res => {
-                if(res.status != 200){
-                    dispatch({ type: DOWNVOTE_FAIL, payload: res.json().error_message });
+                if(res.status !== 200){
+                    dispatch({ type: UPVOTE_FAIL, payload: res.json().error_message });
                 }
             });
     };
@@ -78,7 +71,7 @@ export function downvote(postId, commentId) {
 
         createRequest(getState, 'POST', url)
             .then(res => {
-                if(res.status != 200){
+                if(res.status !== 200){
                     dispatch({ type: DOWNVOTE_FAIL, payload: res.json().error_message });
                 }
             });
