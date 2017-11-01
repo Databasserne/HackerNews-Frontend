@@ -13,9 +13,9 @@ export default (state = initialState, action) => {
                 const comment = comments[i];
 
                 commentInfo[comment.id] = {
-                    body: comment.comment_text,
+                    body: comment.text,
                     author: comments.author_name,
-                    createdAt: comment.created,
+                    createdAt: comment.created_at,
                     hasUpvoted: comment.has_upvoted,
                     hasDownvoted: comment.has_downvoted,
                     votes: comment.votes

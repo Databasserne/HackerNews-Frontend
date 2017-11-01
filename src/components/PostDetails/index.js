@@ -2,10 +2,10 @@ import { connect } from 'react-redux';
 
 import PostDetails from './PostDetails';
 import { fetchPost } from '../../actions/Posts';
-import { upvote, downvote, clearVoteError, fetchComments } from '../../actions/Comments';
+import { upvote, downvote, clearVoteError, fetchComments, addCommentToPost, addComment } from '../../actions/Comments';
 
 function mapComments(rootIds, relation, info) {
-    if(rootIds === undefined) return [];
+    if (rootIds === undefined) return [];
 
     return rootIds.map(id => {
         const comments = mapComments(relation[id], relation, info);
@@ -25,7 +25,7 @@ function mapComments(rootIds, relation, info) {
 
 function mapStateToProps(state) {
 
-    const { relation, info } = state.comment;
+    const { relation, info, add } = state.comment;
     const rootIds = relation[0];
 
     const comments = mapComments(rootIds, relation, info);
@@ -37,8 +37,9 @@ function mapStateToProps(state) {
         hasError,
         errorMessage,
         voteError,
-        comments
+        comments,
+        add
     };
 }
 
-export default connect(mapStateToProps, { fetchPost, upvote, downvote, clearVoteError, fetchComments })(PostDetails);
+export default connect(mapStateToProps, { fetchPost, upvote, downvote, clearVoteError, fetchComments, addCommentToPost, addComment })(PostDetails);

@@ -59,3 +59,7 @@ export const getCommentDownvoteUrl = (postId, commentId) => {
 export const getCommentsUrl = (postId) => {
     return `${apiBaseURL}api/v1/post/${postId}/comment`;
 }
+
+export const getAddCommentToPostUrl = (postId) => {
+    return `${apiBaseURL}api/v1/post/${postId}/comment`;
+}

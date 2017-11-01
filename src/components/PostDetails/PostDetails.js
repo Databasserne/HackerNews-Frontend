@@ -4,6 +4,12 @@ import './style.css';
 
 class PostDetails extends Component {
 
+    constructor(props) {
+        super(props);
+
+        this.state = { body: '' };
+    }
+
     componentDidMount() {
         const id = this.props.match.params.number;
 
@@ -13,10 +19,15 @@ class PostDetails extends Component {
         this.renderVotesButtons = this.renderVotesButtons.bind(this);
         this.upvote = this.upvote.bind(this);
         this.downvote = this.downvote.bind(this);
+        this.renderCommentForm = this.renderCommentForm.bind(this);
+
+        this.addComment = this.addComment.bind(this);
+        this.handleChangeCommentBody = this.handleChangeCommentBody.bind(this);
+        this.handleSubmitComment = this.handleSubmitComment.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.post.voteError != null) {
+        if (nextProps.post.voteError != null) {
             alert(nextProps.posts.voteError);
             nextProps.clearVoteError();
         }
@@ -46,8 +57,22 @@ class PostDetails extends Component {
         );
     }
 
+    addComment(event) {
+        this.props.addComment();
+    }
+
+    handleChangeCommentBody(event) {
+        this.setState({ body: event.target.value });
+    }
+
+    handleSubmitComment(event) {
+        event.preventDefault();
+
+        this.props.addCommentToPost(this.props.post.id, { body: this.state.body });
+    }
+
     renderComments(comments, depth) {
-        if(depth === undefined) depth = 1;
+        if (depth === undefined) depth = 1;
 
         return comments.map(comment => {
             const commentDOM = (
@@ -57,21 +82,37 @@ class PostDetails extends Component {
                 </div>
             );
 
-            if(comment.comments.length === 0){
+            if (comment.comments.length === 0) {
                 return (
-                    <div key={comment.id} style={{marginLeft: 10 * depth}}>
+                    <div key={comment.id} style={{ marginLeft: 10 * depth }}>
                         {commentDOM}
                     </div>
                 );
             } else {
                 return (
-                    <div key={comment.id} style={{marginLeft: 10 * depth}}>
+                    <div key={comment.id} style={{ marginLeft: 10 * depth }}>
                         {commentDOM}
                         {this.renderComments(comment.comments, depth + 1)}
                     </div>
                 );
             }
         });
+    }
+
+    renderCommentForm() {
+        const { isAdding } = this.props.add;
+
+        if (isAdding) {
+            return (
+                <form onSubmit={this.handleSubmitComment}>
+                    <div className="form-group">
+                        <label className="label label-default">Body</label>
+                        <input type="text" value={this.state.body} onChange={this.handleChangeCommentBody} className="form-control" />
+                    </div>
+                    <input type="submit" className="btn btn-default" />
+                </form>
+            )
+        }
     }
 
     render() {
@@ -88,6 +129,10 @@ class PostDetails extends Component {
                 <h1>{title}</h1>
                 <p>{body}</p>
                 <p className="byline">By {author_name}, posted {created_at}</p>
+                <div className="btn btn-success" onClick={this.addComment}>Add comment</div>
+                <div>
+                    {this.renderCommentForm()}
+                </div>
                 <h2>Comments</h2>
                 <div>
                     {this.renderComments(this.props.comments)}

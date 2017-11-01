@@ -8,7 +8,9 @@ import {
     DOWNVOTE_FAIL,
     CLEAR_VOTE_ERROR,
     FETCHING_COMMENT_SUCCESS,
-    FETCHING_COMMENT
+    FETCHING_COMMENT,
+    ADD_COMMENT,
+    ADD_COMMENT_SUCCESS
 } from '../utils/ActionTypes';
 
 const makeAuth = (getState, method, url, data) => {
@@ -20,6 +22,27 @@ const makeAuth = (getState, method, url, data) => {
             'Authorization': `Bearer ${getState().auth.token}`
         }
     };
+}
+
+export function addComment() {
+    return dispatch => {
+        dispatch({ type: ADD_COMMENT });
+    }
+}
+
+export function addCommentToPost(postId, comment) {
+    return (dispatch, getState) => {
+
+        const url = UrlBuilder.getAddCommentToPostUrl(postId);
+
+        axios(makeAuth(getState, 'POST', url, {
+            comment_text: comment.body
+        }))
+            .then(res => {
+                dispatch({ type: ADD_COMMENT_SUCCESS });
+                dispatch(fetchComments(postId));
+            });
+    }
 }
 
 export function fetchComments(postId) {

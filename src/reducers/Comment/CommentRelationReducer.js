@@ -14,10 +14,10 @@ export default (state = initialState, action) => {
             for(var i = 0; i < comments.length; i++){
                 const comment = comments[i];
 
-                if(relInfo[comment.parentCommentId] === undefined){
-                    relInfo[comment.parentCommentId] = [comment.id];
+                if(relInfo[comment.parent_id] === undefined){
+                    relInfo[comment.parent_id] = [comment.id];
                 } else {
-                    relInfo[comment.parentCommentId].push(comment.id);
+                    relInfo[comment.parent_id].push(comment.id);
                 }
             }
 
