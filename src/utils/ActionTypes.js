@@ -21,6 +21,14 @@ export const LOGIN_FAIL = "LOGIN_FAIL";
 export const LOGOUT = "LOGOUT";
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 
+export const UPVOTE = "UPVOTE";
+export const UPVOTE_FAIL = "UPVOTE_FAIL";
+
+export const DOWNVOTE = "DOWNVOTE";
+export const DOWNVOTE_FAIL = "DOWNVOTE_FAIL";
+
+export const CLEAR_VOTE_ERROR = "CLEAR_VOTE_ERROR";
+
 // USER
 
 export const FETCHING_USER = "FETCHING_USER";

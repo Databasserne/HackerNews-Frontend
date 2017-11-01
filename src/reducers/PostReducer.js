@@ -4,6 +4,11 @@ import {
     FETCHING_POSTS_FAIL,
     FETCHING_POST,
     FETCHING_POST_SUCCESS,
+    UPVOTE,
+    UPVOTE_FAIL,
+    DOWNVOTE,
+    DOWNVOTE_FAIL,
+    CLEAR_VOTE_ERROR
 } from '../utils/ActionTypes';
 
 const initialState = {
@@ -11,7 +16,8 @@ const initialState = {
     data: [],
     hasError: false,
     errorMessage: null,
-    post: {}
+    post: {},
+    voteError: null
 };
 
 export default (state = initialState, action) => {
@@ -52,6 +58,23 @@ export default (state = initialState, action) => {
                 isFetching: false,
                 post: action.payload,
             }
+        case UPVOTE:
+        case DOWNVOTE:
+            return {
+                ...state,
+                voteError: null
+            };
+        case UPVOTE_FAIL:
+        case DOWNVOTE_FAIL:
+            return {
+                ...state,
+                voteError: action.payload
+            };
+        case CLEAR_VOTE_ERROR:
+            return {
+                ...state,
+                voteError: null
+            };
         default:
             return state;
     }

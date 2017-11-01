@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import Posts from './Posts';
-import { fetchPosts } from '../../actions/Posts';
+import { fetchPosts, clearVoteError } from '../../actions/Posts';
 
 function mapStateToProps(state) {
     return {
@@ -9,4 +9,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, { fetchPosts })(Posts);
+export default connect(mapStateToProps, { fetchPosts, clearVoteError })(Posts);

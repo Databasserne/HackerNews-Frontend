@@ -16,7 +16,12 @@ import {
     EDIT_POST_SUBMIT_SUCCESS,
     NEW_POST,
     NEW_POST_SUBMIT_SUCCESS,
-    CANCEL_NEW_POST
+    CANCEL_NEW_POST,
+    UPVOTE,
+    UPVOTE_FAIL,
+    DOWNVOTE,
+    DOWNVOTE_FAIL,
+    CLEAR_VOTE_ERROR
 } from '../utils/ActionTypes';
 
 const makeAuth = (getState, method, url, data) => {
@@ -31,7 +36,7 @@ const makeAuth = (getState, method, url, data) => {
 }
 
 export function fetchPosts() {
-    return dispatch => {
+    return (dispatch, getState) => {
         dispatch({ type: FETCHING_POSTS });
 
         const url = UrlBuilder.getPostsUrl();
@@ -66,11 +71,14 @@ export function upvote(id) {
     return (dispatch, getState) => {
         const url = UrlBuilder.upvotePostUrl(id);
 
+        dispatch({ type: UPVOTE });
+
         axios(makeAuth(getState, 'POST', url))
             .then(res => {
                 dispatch(fetchPosts());
             })
             .catch(err => {
+                dispatch({ type: UPVOTE_FAIL, payload: err.response.data.error_message });
             });
     };
 }
@@ -79,11 +87,14 @@ export function downvote(id) {
     return (dispatch, getState) => {
         const url = UrlBuilder.downvotePostUrl(id);
 
+        dispatch({ type: DOWNVOTE });
+
         axios(makeAuth(getState, 'POST', url))
             .then(res => {
                 dispatch(fetchPosts());
             })
             .catch(err => {
+                dispatch({ type: DOWNVOTE_FAIL, payload: err.response.data.error_message });
             });
     };
 }
@@ -168,4 +179,10 @@ export function deletePost(id) {
 
             });
     };
+}
+
+export function clearVoteError() {
+    return dispatch => {
+        dispatch({ type: CLEAR_VOTE_ERROR });
+    }
 }

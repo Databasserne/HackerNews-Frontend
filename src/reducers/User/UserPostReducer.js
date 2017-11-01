@@ -7,7 +7,8 @@ import {
     EDIT_POST_SUBMIT_SUCCESS,
     NEW_POST,
     CANCEL_NEW_POST,
-    NEW_POST_SUBMIT_SUCCESS
+    NEW_POST_SUBMIT_SUCCESS,
+    LOGOUT_SUCCESS
 } from '../../utils/ActionTypes';
 
 const initialState = {
@@ -81,6 +82,13 @@ export default (state = initialState, action) => {
                 ...state,
                 isCreatingNewPost: false,
                 post: {}
+            }
+        case LOGOUT_SUCCESS:
+            return {
+                ...state,
+                post: {},
+                isCreatingNewPost: false,
+                isEditing: false
             }
         default:
             return state;

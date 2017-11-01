@@ -8,6 +8,13 @@ class Posts extends Component {
         this.props.fetchPosts();
     }
 
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.posts.voteError != null) {
+            alert(nextProps.posts.voteError);
+            nextProps.clearVoteError();
+        }
+    }
+
     render() {
         const { posts } = this.props;
 
