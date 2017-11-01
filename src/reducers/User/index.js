@@ -6,6 +6,6 @@ import UserInfoReducer from './UserInfoReducer';
 const userReducer = combineReducers({
     posts: UserPostReducer,
     userInfo: UserInfoReducer,
-});
+}); 
 
 export default userReducer;
