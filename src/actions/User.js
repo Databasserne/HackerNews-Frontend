@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 import {
     userInfoUrl,
     getUpdateUserUrl
@@ -12,19 +10,7 @@ import {
     UPDATE_USER_SUCCESS,
     UPDATE_USER_FAIL
 } from '../utils/ActionTypes';
-
-
-
-const makeAuth = (getState, method, url, data) => {
-    return {
-        method: method,
-        url: url,
-        data: data,
-        headers: {
-            'Authorization': `Bearer ${getState().auth.token}`
-        }
-    };
-}
+import { createRequest } from './utils';
 
 export function fetchUser() {
     return (dispatch, getState) => {
@@ -32,12 +18,13 @@ export function fetchUser() {
 
         const url = userInfoUrl();
 
-        axios(makeAuth(getState, 'GET', url))
+        createRequest(getState, 'GET', url)
             .then(res => {
-                dispatch({ type: FETCHING_USER_SUCCESS, payload: res.data });
-            })
-            .catch(err => {
-                dispatch({ type: FETCHING_USER_FAIL, payload: err.data });
+                if (res.status === 200) {
+                    dispatch({ type: FETCHING_USER_SUCCESS, payload: res.json() });
+                } else {
+                    dispatch({ type: FETCHING_USER_FAIL, payload: res.json() });
+                }
             });
     }
 }
@@ -48,13 +35,14 @@ export function updateUser(fullname) {
 
         const url = getUpdateUserUrl();
 
-        axios(makeAuth(getState, 'PUT', url, { fullname }))
+        createRequest(getState, 'PUT', url, { fullname })
             .then(res => {
-                dispatch(fetchUser());
-                dispatch({ type: UPDATE_USER_SUCCESS });
-            })
-            .catch(err => {
-                dispatch({ type: UPDATE_USER_FAIL, payload: err.data });
+                if (res.status === 200) {
+                    dispatch(fetchUser());
+                    dispatch({ type: UPDATE_USER_SUCCESS });
+                } else {
+                    dispatch({ type: UPDATE_USER_FAIL, payload: res.json() });
+                }
             });
     }
 }

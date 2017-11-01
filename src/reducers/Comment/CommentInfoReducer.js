@@ -14,14 +14,14 @@ export default (state = initialState, action) => {
 
                 commentInfo[comment.id] = {
                     body: comment.text,
-                    author: comments.author_name,
+                    author: comment.author_name,
                     createdAt: comment.created_at,
                     hasUpvoted: comment.has_upvoted,
                     hasDownvoted: comment.has_downvoted,
                     votes: comment.votes
                 };
             }
-
+            
             return {
                 ...state,
                 ...commentInfo

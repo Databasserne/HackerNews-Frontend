@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 import * as UrlBuilder from '../utils/UrlBuilder';
 import {
     UPVOTE,
@@ -12,16 +10,13 @@ import {
     ADD_COMMENT,
     ADD_COMMENT_SUCCESS
 } from '../utils/ActionTypes';
+import { createRequest } from './utils';
 
-const makeAuth = (getState, method, url, data) => {
+const makeHeaders = (getState) => {
     return {
-        method: method,
-        url: url,
-        data: data,
-        headers: {
-            'Authorization': `Bearer ${getState().auth.token}`
-        }
-    };
+        'Authorization': `Bearer ${getState().auth.token}`,
+        'Content-Type': 'application/json'
+    }
 }
 
 export function addComment() {
@@ -35,12 +30,14 @@ export function addCommentToPost(postId, comment) {
 
         const url = UrlBuilder.getAddCommentToPostUrl(postId);
 
-        axios(makeAuth(getState, 'POST', url, {
-            comment_text: comment.body
-        }))
+        createRequest(getState, 'POST', url, {
+            comment_text: comment.body,
+            comment_id: comment.parentId
+        })
             .then(res => {
-                dispatch({ type: ADD_COMMENT_SUCCESS });
-                dispatch(fetchComments(postId));
+                if (res.status === 200) {
+                    dispatch({ type: ADD_COMMENT_SUCCESS, payload: res.json() });
+                }
             });
     }
 }
@@ -51,9 +48,9 @@ export function fetchComments(postId) {
 
         dispatch({ type: FETCHING_COMMENT });
 
-        axios(makeAuth(getState, 'GET', url))
+        createRequest(getState, 'GET', url)
             .then(res => {
-                dispatch({ type: FETCHING_COMMENT_SUCCESS, payload: res.data });
+                dispatch({ type: FETCHING_COMMENT_SUCCESS, payload: res.json() });
             });
     }
 }
@@ -64,11 +61,11 @@ export function upvote(postId, commentId) {
 
         dispatch({ type: UPVOTE });
 
-        axios(makeAuth(getState, 'POST', url))
+        createRequest(getState, 'POST', url)
             .then(res => {
-            })
-            .catch(err => {
-                dispatch({ type: UPVOTE_FAIL, payload: err.response.data.error_message });
+                if(res.status != 200){
+                    dispatch({ type: DOWNVOTE_FAIL, payload: res.json().error_message });
+                }
             });
     };
 }
@@ -79,11 +76,11 @@ export function downvote(postId, commentId) {
 
         dispatch({ type: DOWNVOTE });
 
-        axios(makeAuth(getState, 'POST', url))
+        createRequest(getState, 'POST', url)
             .then(res => {
-            })
-            .catch(err => {
-                dispatch({ type: DOWNVOTE_FAIL, payload: err.response.data.error_message });
+                if(res.status != 200){
+                    dispatch({ type: DOWNVOTE_FAIL, payload: res.json().error_message });
+                }
             });
     };
 }

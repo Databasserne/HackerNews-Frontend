@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 import {
     REGISTER,
     REGISTER_SUCCESS,
@@ -11,41 +9,46 @@ import {
     LOGOUT_SUCCESS
 } from '../utils/ActionTypes';
 import { getLoginUrl, getRegisterUrl } from '../utils/UrlBuilder';
+import { createRequest } from './utils';
 
 export function login(username, password) {
-    return dispatch => {
+    return (dispatch, getState) => {
         dispatch({ type: LOGIN });
 
-        axios.post(getLoginUrl(), {
+        createRequest(getState, 'POST', getLoginUrl(), {
             username: username,
             password: password
         }).then(res => {
-            const { token } = res.data;
+            if (res.status === 200) {
+                const { token } = res.json();
 
-            if (window.localStorage) {
-                window.localStorage.setItem("token", token);
+                if (window.localStorage) {
+                    window.localStorage.setItem("token", token);
+                }
+
+                dispatch({ type: LOGIN_SUCCESS, payload: res.json() });
+            } else {
+                dispatch({ type: LOGIN_FAIL, payload: res.json() });
             }
-
-            dispatch({ type: LOGIN_SUCCESS, payload: res.data });
-        }).catch((err) => {
-            dispatch({ type: LOGIN_FAIL, payload: err.response.data });
-        })
+        });
     }
 }
 
-export function register(fullname, username, password, repeatPassword){
-    return dispatch => {
+export function register(fullname, username, password, repeatPassword) {
+    return (dispatch, getState) => {
         dispatch({ type: REGISTER });
 
-        axios.post(getRegisterUrl(), {
+        createRequest(getState, 'POST', getRegisterUrl(), {
             fullname: fullname,
             username: username,
             password: password,
             rep_password: repeatPassword
         }).then(res => {
-            dispatch({ type: REGISTER_SUCCESS });
-        }).catch((err) => {
-            dispatch({ type: REGISTER_FAIL, payload: err.response.data });
+            if (res === 201) {
+                dispatch({ type: REGISTER_SUCCESS });
+            } else {
+                dispatch({ type: REGISTER_FAIL, payload: res.json() });
+            }
         });
     }
 }

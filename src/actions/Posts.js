@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 import * as UrlBuilder from '../utils/UrlBuilder';
 import {
     FETCHING_POSTS,
@@ -23,17 +21,7 @@ import {
     DOWNVOTE_FAIL,
     CLEAR_VOTE_ERROR
 } from '../utils/ActionTypes';
-
-const makeAuth = (getState, method, url, data) => {
-    return {
-        method: method,
-        url: url,
-        data: data,
-        headers: {
-            'Authorization': `Bearer ${getState().auth.token}`
-        }
-    };
-}
+import { createRequest } from './utils';
 
 export function fetchPosts() {
     return (dispatch, getState) => {
@@ -41,28 +29,30 @@ export function fetchPosts() {
 
         const url = UrlBuilder.getPostsUrl();
 
-        axios.get(url)
+        createRequest(getState, 'GET', url)
             .then(res => {
-                dispatch({ type: FETCHING_POSTS_SUCCESS, payload: res.data });
-            })
-            .catch(err => {
-                dispatch({ type: FETCHING_POSTS_FAIL, payload: err.data });
+                if (res.status === 200) {
+                    dispatch({ type: FETCHING_POSTS_SUCCESS, payload: res.json() });
+                } else {
+                    dispatch({ type: FETCHING_POSTS_FAIL, payload: res.json() });
+                }
             });
     };
 }
 
 export function fetchPost(id) {
-    return dispatch => {
+    return (dispatch, getState) => {
         dispatch({ type: FETCHING_POST });
 
         const url = UrlBuilder.getPostUrl(id);
 
-        axios.get(url)
+        createRequest(getState, 'GET', url)
             .then(res => {
-                dispatch({ type: FETCHING_POST_SUCCESS, payload: res.data });
-            })
-            .catch(err => {
-                dispatch({ type: FETCHING_POST_FAIL, payload: err.data });
+                if (res.status === 200) {
+                    dispatch({ type: FETCHING_POST_SUCCESS, payload: res.json() });
+                } else {
+                    dispatch({ type: FETCHING_POST_FAIL, payload: res.json() });
+                }
             });
     };
 }
@@ -73,12 +63,13 @@ export function upvote(id) {
 
         dispatch({ type: UPVOTE });
 
-        axios(makeAuth(getState, 'POST', url))
+        createRequest(getState, 'POST', url)
             .then(res => {
-                dispatch(fetchPosts());
-            })
-            .catch(err => {
-                dispatch({ type: UPVOTE_FAIL, payload: err.response.data.error_message });
+                if (res === 200) {
+                    dispatch(fetchPosts());
+                } else {
+                    dispatch({ type: UPVOTE_FAIL, payload: res.json().error_message });
+                }
             });
     };
 }
@@ -89,12 +80,13 @@ export function downvote(id) {
 
         dispatch({ type: DOWNVOTE });
 
-        axios(makeAuth(getState, 'POST', url))
+        createRequest(getState, 'POST', url)
             .then(res => {
-                dispatch(fetchPosts());
-            })
-            .catch(err => {
-                dispatch({ type: DOWNVOTE_FAIL, payload: err.response.data.error_message });
+                if (res === 200) {
+                    dispatch(fetchPosts());
+                } else {
+                    dispatch({ type: DOWNVOTE_FAIL, payload: res.json().error_message });
+                }
             });
     };
 }
@@ -105,12 +97,13 @@ export function fetchUserPosts() {
 
         const url = UrlBuilder.getUserPostsUrl();
 
-        axios(makeAuth(getState, 'GET', url))
+        createRequest(getState, 'GET', url)
             .then(res => {
-                dispatch({ type: FETCHING_USER_POST_SUCCESS, payload: res.data });
-            })
-            .catch(err => {
-                dispatch({ type: FETCHING_USER_POST_FAIL, payload: err.data });
+                if (res.status === 200) {
+                    dispatch({ type: FETCHING_USER_POST_SUCCESS, payload: res.json() });
+                } else {
+                    dispatch({ type: FETCHING_USER_POST_FAIL, payload: res.json() });
+                }
             });
     }
 }
@@ -132,7 +125,7 @@ export function newPostSubmit(title, body) {
     return (dispatch, getState) => {
         const url = UrlBuilder.getNewPostUrl();
 
-        axios(makeAuth(getState, 'POST', url, { title, body }))
+        createRequest(getState, 'POST', url, { title, body })
             .then(res => {
                 dispatch(fetchUserPosts());
                 dispatch({ type: NEW_POST_SUBMIT_SUCCESS });
@@ -153,10 +146,11 @@ export function cancelEditPost(post) {
 }
 
 export function editPostSubmit(post) {
-    return dispatch => {
+    return (dispatch, getState) => {
         const url = UrlBuilder.getEditPostUrl(post.id);
 
-        axios.put(url, {
+
+        createRequest(getState, 'PUT', url, {
             title: post.title,
             body: post.body
         })
@@ -168,15 +162,12 @@ export function editPostSubmit(post) {
 }
 
 export function deletePost(id) {
-    return dispatch => {
+    return (dispatch, getState) => {
         const url = UrlBuilder.getDeletePostUrl(id);
 
-        axios.delete(url)
+        createRequest(getState, 'DELETE', url)
             .then(res => {
                 dispatch(fetchUserPosts());
-            })
-            .catch(err => {
-
             });
     };
 }
