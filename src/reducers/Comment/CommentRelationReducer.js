@@ -11,10 +11,10 @@ export default (state = initialState, action) => {
 
             var relInfo = {};
 
-            for(var i = 0; i < comments.length; i++){
+            for (var i = 0; i < comments.length; i++) {
                 const comment = comments[i];
 
-                if(relInfo[comment.parent_id] === undefined){
+                if (relInfo[comment.parent_id] === undefined) {
                     relInfo[comment.parent_id] = [comment.id];
                 } else {
                     relInfo[comment.parent_id].push(comment.id);

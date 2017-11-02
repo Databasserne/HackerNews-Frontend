@@ -28,8 +28,9 @@ export function addCommentToPost(postId, comment) {
             comment_id: comment.parentId
         })
             .then(res => {
-                if (res.status === 200) {
+                if (res.status === 201) {
                     res.json().then(data => {
+                        dispatch(fetchComments(postId));
                         dispatch({ type: ADD_COMMENT_SUCCESS, payload: data });
                     });
                 }
@@ -45,7 +46,7 @@ export function fetchComments(postId) {
 
         createRequest(getState, 'GET', url)
             .then(res => {
-                if(res.status === 200) {
+                if (res.status === 200) {
                     res.json().then(data => {
                         dispatch({ type: FETCHING_COMMENT_SUCCESS, payload: data });
                     });
@@ -62,10 +63,12 @@ export function upvote(postId, commentId) {
 
         createRequest(getState, 'POST', url)
             .then(res => {
-                if(res.status !== 200){
+                if (res.status !== 201) {
                     res.json().then(err => {
                         dispatch({ type: UPVOTE_FAIL, payload: err.error_message });
                     });
+                } else {
+                    dispatch(fetchComments(postId));
                 }
             });
     };
@@ -79,10 +82,12 @@ export function downvote(postId, commentId) {
 
         createRequest(getState, 'POST', url)
             .then(res => {
-                if(res.status !== 200){
+                if (res.status !== 201) {
                     res.json().then(err => {
                         dispatch({ type: DOWNVOTE_FAIL, payload: err.error_message });
                     });
+                }else {
+                    dispatch(fetchComments(postId));
                 }
             });
     };

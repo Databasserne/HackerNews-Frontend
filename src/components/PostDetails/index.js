@@ -18,6 +18,7 @@ function mapComments(rootIds, relation, info) {
             hasUpvoted: info[id].hasUpvoted,
             hasDownvoted: info[id].hasDownvoted,
             createdAt: info[id].createdAt,
+            canDownvote: info[id].canDownvote,
             comments: comments
         };
     });

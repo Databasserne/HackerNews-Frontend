@@ -9,7 +9,7 @@ export default (state = initialState, action) => {
         case FETCHING_COMMENT_SUCCESS:
             const comments = action.payload;
             var commentInfo = {};
-            for(var i = 0; i < comments.length; i++){
+            for (var i = 0; i < comments.length; i++) {
                 const comment = comments[i];
 
                 commentInfo[comment.id] = {
@@ -18,12 +18,12 @@ export default (state = initialState, action) => {
                     createdAt: comment.created_at,
                     hasUpvoted: comment.has_upvoted,
                     hasDownvoted: comment.has_downvoted,
-                    votes: comment.votes
+                    votes: comment.votes,
+                    canDownvote: comment.canDownvote
                 };
             }
-            
+
             return {
-                ...state,
                 ...commentInfo
             }
         default:

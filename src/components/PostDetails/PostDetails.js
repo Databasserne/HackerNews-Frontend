@@ -7,7 +7,7 @@ class PostDetails extends Component {
     constructor(props) {
         super(props);
 
-        this.state = { body: '' };
+        this.state = { body: '', commentId: null };
     }
 
     componentDidMount() {
@@ -24,11 +24,12 @@ class PostDetails extends Component {
         this.addComment = this.addComment.bind(this);
         this.handleChangeCommentBody = this.handleChangeCommentBody.bind(this);
         this.handleSubmitComment = this.handleSubmitComment.bind(this);
+        this.addCommentToComment = this.addCommentToComment.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.post.voteError != null) {
-            alert(nextProps.posts.voteError);
+        if (nextProps.voteError != null) {
+            alert(nextProps.voteError);
             nextProps.clearVoteError();
         }
     }
@@ -42,7 +43,9 @@ class PostDetails extends Component {
     }
 
     renderVotesButtons(comment) {
-        const { hasUpvoted, hasDownvoted } = comment;
+        if (this.props.ownPost) return;
+
+        const { hasUpvoted, hasDownvoted, canDownvote } = comment;
 
         var upvoteClass = "glyphicon glyphicon-arrow-up";
         upvoteClass += hasUpvoted ? " upvoted" : "";
@@ -50,9 +53,12 @@ class PostDetails extends Component {
         var downvoteClass = "glyphicon glyphicon-arrow-down";
         downvoteClass += hasDownvoted ? " downvoted" : "";
 
+        const upVote = <i id={comment.id} onClick={this.upvote} className={upvoteClass} />
+        const downVote = canDownvote ? (<i id={comment.id} onClick={this.downvote} className={downvoteClass} />) : (<span />);
+
         return (
             <span className="arrows">
-                <i onClick={this.upvote} className={upvoteClass} id={comment.id} /><i onClick={this.downvote} className={downvoteClass} id={comment.id} />
+                {upVote}{downVote}
             </span>
         );
     }
@@ -61,14 +67,20 @@ class PostDetails extends Component {
         this.props.addComment();
     }
 
+    addCommentToComment(event) {
+        this.props.addComment();
+        this.setState({ commentId: event.target.id });
+    }
+
     handleChangeCommentBody(event) {
-        this.setState({ body: event.target.value });
+        this.setState({ body: event.target.value, });
     }
 
     handleSubmitComment(event) {
         event.preventDefault();
 
-        this.props.addCommentToPost(this.props.post.id, { body: this.state.body });
+        this.props.addCommentToPost(this.props.post.id, { body: this.state.body, parentId: this.state.commentId });
+        this.setState({ body: '', commentId: null });
     }
 
     renderComments(comments, depth) {
@@ -77,8 +89,8 @@ class PostDetails extends Component {
         return comments.map(comment => {
             const commentDOM = (
                 <div>
-                    <p>{comment.votes} {this.renderVotesButtons(comment)} - {comment.body} {comment.id}</p>
-                    <p className="byline">Created by {comment.author} at {comment.createdAt}</p>
+                    <p>{comment.votes} {this.renderVotesButtons(comment)} - {comment.body}</p>
+                    <p className="byline">Created by {comment.author} at {comment.createdAt} <span id={comment.id} onClick={this.addCommentToComment} className="make-comment">make comment</span></p>
                 </div>
             );
 
@@ -128,7 +140,7 @@ class PostDetails extends Component {
             <div>
                 <h1>{title}</h1>
                 <p>{body}</p>
-                <p className="byline">By {author_name}, posted {created_at}</p>
+                <p className="byline">Created by {author_name} at {created_at}</p>
                 <div className="btn btn-success" onClick={this.addComment}>Add comment</div>
                 <div>
                     {this.renderCommentForm()}

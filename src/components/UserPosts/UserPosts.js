@@ -92,6 +92,7 @@ class UserPosts extends Component {
                         id={post.id}
                         hasUpvoted={post.hasUpvoted}
                         hasDownvoted={post.hasDownvoted}
+                        createdAt={post.created_at}
                         ownPost={true}
                         editPost={this.editPost}
                         deletePost={this.deletePost}

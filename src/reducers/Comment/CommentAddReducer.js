@@ -1,5 +1,6 @@
 import {
-    ADD_COMMENT
+    ADD_COMMENT,
+    ADD_COMMENT_SUCCESS
 } from '../../utils/ActionTypes';
 
 const initialState = {
@@ -12,6 +13,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 isAdding: true
+            }
+        case ADD_COMMENT_SUCCESS:
+            return {
+                ...state,
+                isAdding: false
             }
         default:
             return state;
