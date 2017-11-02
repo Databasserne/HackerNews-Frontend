@@ -16,7 +16,7 @@ class Posts extends Component {
     }
 
     render() {
-        const { posts } = this.props;
+        const { posts, isLoggedIn } = this.props;
 
         const tBody = posts.data.map((post) => {
             return (
@@ -27,7 +27,10 @@ class Posts extends Component {
                     votes={post.votes} 
                     id={post.id} 
                     hasUpvoted={post.hasUpvoted} 
-                    hasDownvoted={post.hasDownvoted} 
+                    hasDownvoted={post.hasDownvoted}
+                    canDownvote={post.canDownvote}
+                    canUpvote={isLoggedIn}
+                    createdAt={post.created_at}
                 />
             );
         });

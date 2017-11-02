@@ -87,7 +87,7 @@ class UserPosts extends Component {
                     <Post
                         key={post.id}
                         title={post.title}
-                        author={post.author_name}
+                        author={this.props.fullname}
                         votes={post.votes}
                         id={post.id}
                         hasUpvoted={post.hasUpvoted}
@@ -95,6 +95,8 @@ class UserPosts extends Component {
                         ownPost={true}
                         editPost={this.editPost}
                         deletePost={this.deletePost}
+                        canUpvote={false}
+                        canDownvote={false}
                     />
                 );
             });

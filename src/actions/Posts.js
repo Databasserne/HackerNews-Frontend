@@ -73,7 +73,7 @@ export function upvote(id) {
 
         createRequest(getState, 'POST', url)
             .then(res => {
-                if (res === 200) {
+                if (res.status === 200) {
                     dispatch(fetchPosts());
                 } else {
                     res.json().then(err => {
@@ -92,7 +92,7 @@ export function downvote(id) {
 
         createRequest(getState, 'POST', url)
             .then(res => {
-                if (res === 200) {
+                if (res.status === 200) {
                     dispatch(fetchPosts());
                 } else {
                     res.json().then(err => {

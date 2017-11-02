@@ -5,6 +5,7 @@ import { fetchPosts, clearVoteError } from '../../actions/Posts';
 
 function mapStateToProps(state) {
     return {
+        isLoggedIn: state.auth.isLoggedIn,
         posts: state.posts
     };
 }

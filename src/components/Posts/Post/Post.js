@@ -38,7 +38,7 @@ class Post extends Component {
     renderVotesButtons() {
         if (this.props.ownPost) return;
 
-        const { hasUpvoted, hasDownvoted } = this.props;
+        const { hasUpvoted, hasDownvoted, canDownvote, canUpvote } = this.props;
 
         var upvoteClass = "glyphicon glyphicon-arrow-up";
         upvoteClass += hasUpvoted ? " upvoted" : "";
@@ -46,9 +46,12 @@ class Post extends Component {
         var downvoteClass = "glyphicon glyphicon-arrow-down";
         downvoteClass += hasDownvoted ? " downvoted" : "";
 
+        const upVote = canUpvote ? (<i onClick={this.upvote} className={upvoteClass} />) : (<span />);
+        const downVote = canDownvote ? (<i onClick={this.downvote} className={downvoteClass} />) : (<span />);
+
         return (
             <span>
-                <i onClick={this.upvote} className={upvoteClass} /><i onClick={this.downvote} className={downvoteClass} />
+                {upVote}{downVote}
             </span>
         );
     }
@@ -73,7 +76,7 @@ class Post extends Component {
     }
 
     render() {
-        const { title, author, id, votes } = this.props;
+        const { title, author, id, votes, createdAt } = this.props;
 
         const postDetailLink = `/post/${id}`;
 
@@ -85,7 +88,7 @@ class Post extends Component {
                     </div>
                     <div>
                         <Link className="title" to={postDetailLink}>{title}</Link><br />
-                        <span className="by-line">Author: {author}</span>
+                        <span className="by-line">Created by {author} at {createdAt}</span>
                     </div>
                 </td>
                 {this.renderActionButtons()}

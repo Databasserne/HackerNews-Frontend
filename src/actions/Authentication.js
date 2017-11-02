@@ -48,11 +48,11 @@ export function register(fullname, username, password, repeatPassword) {
             password: password,
             rep_password: repeatPassword
         }).then(res => {
-            if (res === 201) {
+            if (res.status === 200) {
                 dispatch({ type: REGISTER_SUCCESS });
             } else {
                 res.json().then(err => {
-                    dispatch({ type: REGISTER_FAIL, payload: res.json() });
+                    dispatch({ type: REGISTER_FAIL, payload: err });
                 })
             }
         });

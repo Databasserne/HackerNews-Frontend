@@ -5,6 +5,7 @@ import { fetchUserPosts, deletePost, editPost, editPostSubmit, cancelEditPost, n
 
 function mapStateToProps(state) {
     return {
+        fullname: state.user.userInfo.fullname,
         posts: state.user.posts
     };
 }
